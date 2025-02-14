@@ -151,8 +151,10 @@ name = "rust-callgraph-cli"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "quote",
  "serde",
  "serde_json",
+ "syn",
 ]
 
 [[package]]
