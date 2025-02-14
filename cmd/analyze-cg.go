@@ -6,8 +6,8 @@ import (
 
 	"github.com/atotto/clipboard"
 	"github.com/spf13/cobra"
-	"github.com/trakfy/core/internal/core/analyzers"
-	"github.com/trakfy/core/internal/core/detectors"
+	"github.com/vmotta8/callgraph-cli/internal/core/analyzers"
+	"github.com/vmotta8/callgraph-cli/internal/core/detectors"
 )
 
 func NewAnalyzeCallGraphCommand() *cobra.Command {

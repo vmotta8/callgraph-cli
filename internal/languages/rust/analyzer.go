@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/trakfy/core/internal/core/types"
+	"github.com/vmotta8/callgraph-cli/internal/core/types"
 )
 
 type RustAnalyzer struct{}

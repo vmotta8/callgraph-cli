@@ -1,7 +1,7 @@
 package golang
 
 import (
-	"github.com/trakfy/core/internal/core/types"
+	"github.com/vmotta8/callgraph-cli/internal/core/types"
 )
 
 type GoAnalyzer struct{}

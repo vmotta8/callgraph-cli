@@ -1,6 +1,6 @@
-module github.com/trakfy/core
+module github.com/vmotta8/callgraph-cli
 
-go 1.23.5
+go 1.23.6
 
 require (
 	github.com/atotto/clipboard v0.1.4

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/trakfy/core/internal/core/types"
-	"github.com/trakfy/core/internal/languages/golang"
-	"github.com/trakfy/core/internal/languages/rust"
+	"github.com/vmotta8/callgraph-cli/internal/core/types"
+	"github.com/vmotta8/callgraph-cli/internal/languages/golang"
+	"github.com/vmotta8/callgraph-cli/internal/languages/rust"
 )
 
 type Analyzer interface {
