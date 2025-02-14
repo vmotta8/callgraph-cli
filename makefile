@@ -1,7 +1,11 @@
 BIN_NAME = callgraph-cli
 RUST_CLI_DIR = clis/rust
 
-.PHONY: build analyze-cg test clean help build-go build-rust clean-go clean-rust tool-version
+.PHONY: install build build-go build-rust clean clean-go clean-rust test analyze-cg
+
+install: build
+	@echo "Installing $(BIN_NAME) into /usr/local/bin..."
+	@sudo cp bin/$(BIN_NAME) /usr/local/bin/
 
 build: build-go build-rust
 

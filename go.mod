@@ -3,6 +3,7 @@ module github.com/trakfy/core
 go 1.23.5
 
 require (
+	github.com/atotto/clipboard v0.1.4
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/tools v0.29.0
 	gopkg.in/ini.v1 v1.67.0

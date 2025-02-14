@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/atotto/clipboard"
 	"github.com/spf13/cobra"
 	"github.com/trakfy/core/internal/core/analyzers"
 	"github.com/trakfy/core/internal/core/detectors"
@@ -26,14 +27,14 @@ func NewAnalyzeCallGraphCommand() *cobra.Command {
 	cmd.Flags().StringVarP(&funcName, "funcName", "f", "", "Name of the function to analyze")
 	cmd.Flags().BoolVarP(&printOutput, "stdout", "s", false, "Print JSON to stdout instead of saving it")
 	cmd.MarkFlagRequired("entryfile")
-	cmd.MarkFlagRequired("function")
+	cmd.MarkFlagRequired("funcName")
 
 	return cmd
 }
 
 func run(cmd *cobra.Command, entryFile string, funcName string, printOutput bool) {
 	if entryFile == "" || funcName == "" {
-		cmd.PrintErrln("Both --entryfile and --function flags are required")
+		cmd.PrintErrln("Both --entryfile and --funcName flags are required")
 		return
 	}
 
@@ -52,12 +53,18 @@ func run(cmd *cobra.Command, entryFile string, funcName string, printOutput bool
 
 	jsonBytes, err := json.MarshalIndent(chain, "", "  ")
 	if err != nil {
-		cmd.PrintErrf("Falha ao serializar JSON: %v\n", err)
+		cmd.PrintErrf("Failed to serialize JSON: %v\n", err)
 		return
 	}
 
 	if printOutput {
-		cmd.Println(string(jsonBytes))
+		output := string(jsonBytes)
+		cmd.Println(output)
+		if err := clipboard.WriteAll(output); err != nil {
+			cmd.PrintErrf("Failed to copy output to clipboard: %v\n", err)
+		} else {
+			cmd.Println("Output copied to clipboard!")
+		}
 	} else {
 		if err := analyzers.SaveAnalysisResult(chain); err != nil {
 			cmd.PrintErrf("Failed to save results: %v\n", err)
