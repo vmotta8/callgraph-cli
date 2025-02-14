@@ -7,11 +7,13 @@ on:
 
 jobs:
   build-and-release:
+    permissions: write-all
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v4
@@ -29,7 +31,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: comnoco/create-release@v2
+        uses: comnoco/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
