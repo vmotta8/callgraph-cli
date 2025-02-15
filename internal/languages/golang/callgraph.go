@@ -124,7 +124,7 @@ func buildCallGraphNode(node *callgraph.Node, fset *token.FileSet, visited map[*
 
 	code, err := extractFunctionCode(pos.Filename, node.Func.Name())
 	if err != nil {
-		code = fmt.Sprintf("Não foi possível extrair o código: %v", err)
+		code = fmt.Sprintf("Could not extract code: %v", err)
 	}
 	cgNode := &types.CallNode{
 		Name:        node.Func.Name(),
@@ -147,7 +147,7 @@ func extractFunctionCode(filePath string, fnName string) (string, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filePath, nil, parser.ParseComments)
 	if err != nil {
-		return "", fmt.Errorf("erro ao fazer parse de %s: %v", filePath, err)
+		return "", fmt.Errorf("error parsing %s: %v", filePath, err)
 	}
 
 	var buf bytes.Buffer
@@ -166,7 +166,7 @@ func extractFunctionCode(filePath string, fnName string) (string, error) {
 	})
 
 	if !found {
-		return "", fmt.Errorf("função '%s' não encontrada em '%s'", fnName, filePath)
+		return "", fmt.Errorf("function '%s' not found in '%s'", fnName, filePath)
 	}
 	return buf.String(), nil
 }
