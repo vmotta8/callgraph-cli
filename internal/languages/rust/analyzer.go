@@ -3,12 +3,16 @@ package rust
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
-	"path/filepath"
-	"runtime"
+
+	_ "embed"
 
 	"github.com/vmotta8/callgraph-cli/internal/core/types"
 )
+
+//go:embed rust-callgraph-cli
+var rustBinary []byte
 
 type RustAnalyzer struct{}
 
@@ -27,6 +31,7 @@ func (a *RustAnalyzer) AnalyzeChain(entryFile string, funcName string, lang stri
 	if err != nil {
 		return chain, fmt.Errorf("error getting Rust executable path: %w", err)
 	}
+	defer os.Remove(rustExecutable)
 
 	cmd := exec.Command(rustExecutable, "--file", entryFile, "--func", funcName)
 	output, err := cmd.Output()
@@ -45,15 +50,20 @@ func (a *RustAnalyzer) AnalyzeChain(entryFile string, funcName string, lang stri
 }
 
 func getRustExecutablePath() (string, error) {
-	_, currentFile, _, ok := runtime.Caller(0)
-	if !ok {
-		return "", fmt.Errorf("unable to get current file path")
-	}
-	currentDir := filepath.Dir(currentFile)
-	executablePath := filepath.Join(currentDir, "..", "..", "..", "clis", "rust", "target", "release", "rust-callgraph-cli")
-	executablePath, err := filepath.Abs(executablePath)
+	tmpFile, err := os.CreateTemp("", "rust-callgraph-cli-*")
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to create temporary file: %w", err)
 	}
-	return executablePath, nil
+
+	if _, err := tmpFile.Write(rustBinary); err != nil {
+		tmpFile.Close()
+		return "", fmt.Errorf("failed to write binary to temporary file: %w", err)
+	}
+	tmpFile.Close()
+
+	if err := os.Chmod(tmpFile.Name(), 0755); err != nil {
+		return "", fmt.Errorf("failed to set executable permission: %w", err)
+	}
+
+	return tmpFile.Name(), nil
 }

@@ -1,5 +1,6 @@
 .refactorclirc
 analysis.json
+rust-callgraph-cli
 
 *.o
 *.a
