@@ -16,7 +16,7 @@ A command-line tool that analyzes code context to enhance LLM (Large Language Mo
 
 ```bash
 # Download the binary
-wget https://github.com/vmotta8/callgraph-cli/releases/download/{{RELEASE_VERSION}}/callgraph-cli
+wget -O callgraph-cli https://github.com/vmotta8/callgraph-cli/releases/download/{{RELEASE_VERSION}}/callgraph-cli-{{OS}}
 
 # Make it executable
 chmod +x callgraph-cli
